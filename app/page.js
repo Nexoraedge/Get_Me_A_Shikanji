@@ -1,11 +1,14 @@
 import Image from "next/image";
 
 export default function Home() {
+
+   
+  
   return (
     <>
-    <div className="flex flex-col justify-center gap-5 items-center h-[43vh]">
-         <div className="font-bold text-3xl flex gap-1 justify-center">Get Me Shikanji <span><img width={80} src="./pep.gif" alt="" /></span></div>
-         <p>
+    <div className="flex flex-col mx-3 justify-center gap-5 items-center h-[40vh]">
+         <div className="font-bold gap-5 text-3xl flex items-center justify-center">Get Me Shikanji <span><img width={40} src="./pep.gif" alt="Shikanji" /></span></div>
+         <p className=" text-center">
           crowd funding platform for creative projects . Get funded by like minded people  , Fans and  Investors.
           Start your project now!
          </p>
@@ -24,9 +27,25 @@ export default function Home() {
     </button>
          </div>
       </div>
-      <div className="bg-white h-1 opacity-15">
-        
-      </div>
+      <div className="bg-white h-1 opacity-15">      </div>
+      <div className=" mx-3">
+        <h1 className="text-lg font-bold text-center my-3">Your Fans can buy you a Shikanji 🍋</h1>
+        <div className="flex gap-5 justify-between px-2  ">
+          <div className="item space-y-3">
+            <img width={100} className=" bg-slate-400/60 rounded-full p-1" src="./deve.gif" alt="developer" / >
+            <p className=" font-medium sm:font-bold text-sm sm:text-base">Fund yourself</p>
+          </div>
+          <div className="item space-y-3">
+            <img width={100} className=" bg-slate-400/60 rounded-full p-1" src="./deve.gif" alt="developer" / >
+            <p className=" font-medium sm:font-bold text-sm sm:text-base">Fund yourself</p>
+          </div>
+          <div className="item space-y-3">
+            <img width={100} className=" bg-slate-400/60 rounded-full p-1" src="./deve.gif" alt="developer" / >
+            <p className=" font-medium sm:font-bold text-sm sm:text-base">Fund yourself</p>
+          </div>
+        </div>
+        </div>
+
       </>
   );
 }

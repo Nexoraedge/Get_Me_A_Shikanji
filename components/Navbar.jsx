@@ -5,7 +5,7 @@ const Navbar = () => {
 
   return (
     <nav className=' text-white  '>
-   <div className=" blurkro rounded-full m-2 bg-blue-950/50 flex justify-between py-3 items-center px-5 ">
+   <div className=" blurkro rounded-full m-2 bg-blue-950/70 flex justify-between py-3 items-center px-5 ">
    <div className="logo font-bold text-3xl">
         GetMEShikan
       </div>
