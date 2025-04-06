@@ -28,21 +28,31 @@ export default function Home() {
          </div>
       </div>
       <div className="bg-white h-1 opacity-15">      </div>
-      <div className=" mx-3">
-        <h1 className="text-lg font-bold text-center my-3">Your Fans can buy you a Shikanji 🍋</h1>
-        <div className="flex gap-5 justify-between px-2  ">
-          <div className="item space-y-3">
+      <div className="container mb-7 mx-auto">
+        <h2 className="text-lg font-bold text-center my-3 py-7">Your Fans can buy you a Shikanji 🍋</h2>
+        <div className="flex gap-5 justify-around  ">
+          <div className="item space-y-3 flex flex-col justify-center items-center text-center">
             <img width={100} className=" bg-slate-400/60 rounded-full p-1" src="./deve.gif" alt="developer" / >
             <p className=" font-medium sm:font-bold text-sm sm:text-base">Fund yourself</p>
+            <p className="text-sm">Your fans are available for you to help you</p>
           </div>
-          <div className="item space-y-3">
-            <img width={100} className=" bg-slate-400/60 rounded-full p-1" src="./deve.gif" alt="developer" / >
+          <div className="item space-y-3 flex flex-col justify-center items-center text-center">
+            <img width={100} className=" bg-slate-400/60 rounded-full p-1" src="./coin.gif" alt="developer" / >
             <p className=" font-medium sm:font-bold text-sm sm:text-base">Fund yourself</p>
+            <p className="text-sm">Your fans are available for you to help you</p>
           </div>
-          <div className="item space-y-3">
-            <img width={100} className=" bg-slate-400/60 rounded-full p-1" src="./deve.gif" alt="developer" / >
-            <p className=" font-medium sm:font-bold text-sm sm:text-base">Fund yourself</p>
+          <div className="item space-y-3 flex flex-col justify-center items-center text-center">
+            <img width={100}  className=" bg-slate-400/60 rounded-full p-1 " src="./group.gif" alt="developer" / >
+            <p className=" font-medium sm:font-bold text-sm sm:text-base">Fans want to help</p>
+            <p className="text-sm">Your fans are available for you to help you</p>
           </div>
+        </div>
+        </div>
+      <div className="bg-white h-1 opacity-15">      </div>
+      <div className="container mb-7 mx-auto">
+        <h2 className="text-lg font-bold text-center my-3 py-7">More about GetMeShikanji</h2>
+        <div className="flex justify-center ">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/Ga7-VvrVB-4?si=TkYOiBVpmJHoLNij" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
         </div>
         </div>
 
