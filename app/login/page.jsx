@@ -1,8 +1,14 @@
 "use client"
 import React from 'react'
+import { useRouter } from 'next/navigation'
 import { useSession, signIn, signOut } from "next-auth/react"
 
 const Login = () => {
+    const {data:session} =useSession();
+    if(session) {
+        const rounter = useRouter();
+        rounter.push('/profile')
+      }
     return (
         <div className=' container mx-auto max-h-screen'>
             <div className="socail-lgin">

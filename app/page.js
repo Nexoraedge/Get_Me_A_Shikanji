@@ -29,7 +29,7 @@ export default function Home() {
       </div>
       <div className="bg-white h-1 opacity-15">      </div>
       <div className="container mb-7 mx-auto">
-        <h2 className="text-lg font-bold text-center my-3 py-7">Your Fans can buy you a Shikanji 🍋</h2>
+        <h2 className="text-xl font-bold text-center my-3 py-7">Your Fans can buy you a Shikanji 🍋</h2>
         <div className="flex gap-5 justify-around  ">
           <div className="item space-y-3 flex flex-col justify-center items-center text-center">
             <img width={100} className=" bg-slate-400/60 rounded-full p-1" src="./deve.gif" alt="developer" / >
@@ -50,7 +50,7 @@ export default function Home() {
         </div>
       <div className="bg-white h-1 opacity-15">      </div>
       <div className="container mb-7 mx-auto">
-        <h2 className="text-lg font-bold text-center my-3 py-7">More about GetMeShikanji</h2>
+        <h2 className="text-xl font-bold text-center my-3 py-7">More about GetMeShikanji</h2>
         <div className="flex justify-center ">
         <iframe width="560" height="315" src="https://www.youtube.com/embed/Ga7-VvrVB-4?si=TkYOiBVpmJHoLNij" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
         </div>
