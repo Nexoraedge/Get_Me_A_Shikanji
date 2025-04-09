@@ -1,8 +1,8 @@
 "use client"
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSession, signIn, signOut } from "next-auth/react"
-import Github from 'next-auth/providers/github'
+
 const Navbar = () => {
   const { data: session } = useSession()
   const [showDropdown, setShowDropdown] = useState(false)
@@ -13,6 +13,25 @@ const Navbar = () => {
   //     <button onClick={() => signOut()}>Sign out</button>
   //   </>
   // }
+  const [isouted, setIsouted] = useState(false)
+
+  useEffect(() => {
+    setIsouted(true)
+  }, [])
+  
+
+  if (!isouted) {
+    return (
+      <nav className='text-white'>
+        <div className="blurkro rounded-full m-2 bg-blue-950/70 flex justify-between py-3 items-center px-5">
+          <div className="logo font-bold flex text-xl items-center gap-2 sm:self-center">
+            <span>GetMEShikan</span>
+          </div>
+          <div className='text-center'></div>
+        </div>
+      </nav>
+    )
+  }
 
   return (
     <nav className=' text-white  '>
@@ -52,10 +71,12 @@ const Navbar = () => {
             <div id="dropdown" className={` z-10 ${showDropdown ? "" : "hidden"}   bg-white divide-y divide-gray-100 rounded-lg z-30 absolute shadow-sm w-44 dark:bg-gray-700 `}>
               <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                 <li>
-                  <Link href={"/profile"} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</Link>
+                  <Link href={`/${session.user.name}`} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{session.user.name}</Link>
                 </li>
                 <li>
-                  <Link href={"/setting"} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</Link>
+                  <Link href={"/dashboard"} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">dashboard
+                  
+                  </Link>
                 </li>
 
                 <li>
