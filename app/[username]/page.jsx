@@ -1,7 +1,8 @@
+"use client"
 import React from 'react'
 
 const UserName = async ({ params }) => {
-  console.log(await params.username)
+  
   return (
     <>
       <div className='w-full h-[44vh] relative '>
@@ -44,11 +45,11 @@ const UserName = async ({ params }) => {
           <div className="makepayment w-full sm:w-1/2 rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">
             <h2 className='font-semibold text-xl my-5'>Support Us</h2>
             <div className="flex flex-col gap-2">
-              <input type="text" placeholder='Enter Name' className='w-full p-3 bg-slate-800  rounded-lg ' />
+              <input type="text"   placeholder='Enter Name' className='w-full p-3 bg-slate-800  rounded-lg ' />
               <input type="text" placeholder='Enter Message' className='w-full p-3 bg-slate-800  rounded-lg ' />
               <input type="text" placeholder='Enter Amount' className='w-full p-3 bg-slate-800  rounded-lg ' />
               {/* <button className='bg-slate-700 p-3 rounded-lg hover:scale-95 transition-all  hover:bg-slate-600/80 hover:font-bold hovertext-lg'>Pay</button> */}
-              <button class="relative text-lg inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-[#010225] to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+              <button  class="relative text-lg inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-[#010225] to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
                 <span class="relative px-5 py-2.5 transition-colors ease-in duration-150 bg-white dark:bg-gray-800  rounded-md w-full group-hover:bg-transparent group-hover:dark:bg-transparent hover:from-0% hover:to-100%">
                   Pay 💸
                 </span>

@@ -26,7 +26,7 @@ export const authOptions = NextAuth({
         const curretUser = await User.findOne({ email: email });
         if (!curretUser) {
           //create a new user
-          const newUser = await User.create({
+          const newUser = await User.create({ 
             email: user.email,
             UserName: user.email.split("@")[0],
           })

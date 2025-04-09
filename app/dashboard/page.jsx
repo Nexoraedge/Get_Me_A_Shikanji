@@ -44,14 +44,11 @@ const dashboard = () => {
           </div>
 
           <div className='my-2'>
-            <label htmlFor="RazorPay_ID" className='block text-sm font-medium leading-6 '>RazorPay_ID</label>
-            <input type="text" name='RazorPay_ID' id='RazorPay_ID' className='block w-full p-2 text-sky-200 bg-gray-700/60 rounded-lg' />
+            <label htmlFor="UPI_ID" className='block text-sm font-medium leading-6 '>UPI_ID</label>
+            <input type="text" name='UPI_ID' id='UPI_ID' className='block w-full p-2 text-sky-200 bg-gray-700/60 rounded-lg' />
           </div>
 
-          <div className='my-2'>
-            <label htmlFor="RazorPay_Secret" className='block text-sm font-medium leading-6 '>RazorPay_Secret</label>
-            <input type="text" name='RazorPay_Secret' id='RazorPay_Secret' className='block w-full p-2 text-sky-200 bg-gray-700/60 rounded-lg' />
-          </div>
+          
 
           <button class="relative my-2 w-full inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-[#02063b] to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             <span class="relative px-5 w-full py-2.5 transition-all ease-in duration-75 hover:font-bold hover:scale-125">
