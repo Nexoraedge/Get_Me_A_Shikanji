@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const PaymentSchema = new Schema({
-    name: { type: String, required: true },
-    to_User: { type: String, required: true },
-    Oder_ID: { type: String, required: true },
+    name: { type: String,  },
+    to_User: { type: String,},
+    oid: { type: String,  },
     message: { type: String },
     amount: { type: Number, required: true },
     Credited_AT: { type: Date, default: Date.now },
