@@ -5,8 +5,8 @@ import { useSession, signIn, signOut } from "next-auth/react"
 
 const Login = () => {
     const { data: session } = useSession();
+    const rounter = useRouter();
     if (session) {
-        const rounter = useRouter();
         rounter.push(`/${session.user.name}`)
     }
     return (
