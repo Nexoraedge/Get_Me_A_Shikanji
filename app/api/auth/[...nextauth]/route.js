@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
+import GoogleProvider from "next-auth/providers/google"
 import mongoose from "mongoose";
 import User from "@/models/user";
 import connectDB from "@/db/connectDB";
@@ -11,6 +12,10 @@ export const authOptions = NextAuth({
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
     })
 
   ],
@@ -18,7 +23,7 @@ export const authOptions = NextAuth({
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       // const isAllowedToSignIn = true
-      if (account.provider === "github") {
+      if (account.provider === "github" || account.provider === "google") {
         await connectDB();
 
         //check if person is in the database
@@ -42,6 +47,12 @@ export const authOptions = NextAuth({
       session.user.name = dbUser.UserName
       return session
     },
+    // async signIn({ account, profile }) {
+    //   if (account.provider === "google") {
+    //     return profile.email_verified && profile.email.endsWith("@gmail.com")
+    //   }
+    //   return true // Do different verification for other providers that don't have `email_verified`
+    // },
   }
 })
 

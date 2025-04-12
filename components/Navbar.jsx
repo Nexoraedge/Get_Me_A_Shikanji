@@ -1,9 +1,16 @@
 "use client"
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useSession, signIn, signOut } from "next-auth/react"
 
 const Navbar = () => {
+  
+  // const router = useRouter();
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/login' });
+ 
+  }
   const { data: session } = useSession()
   const [showDropdown, setShowDropdown] = useState(false)
 
@@ -18,6 +25,7 @@ const Navbar = () => {
   useEffect(() => {
     setIsouted(true)
   }, [])
+
   
 
   if (!isouted) {
@@ -80,7 +88,7 @@ const Navbar = () => {
                 </li>
 
                 <li>
-                  <button onClick={() => signOut()} className="block px-4 py-2 w-full hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</button>
+                  <button onClick={() => {handleSignOut()}} className="block px-4 py-2 w-full hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</button>
                 </li>
               </ul>
             </div>
