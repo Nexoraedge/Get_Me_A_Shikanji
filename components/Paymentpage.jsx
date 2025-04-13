@@ -1,18 +1,26 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { initiate } from '@/actions/Useraction'
 import { NextResponse } from 'next/server'
 import Script from 'next/script'
+import { fetchUser  , fetchPayments } from '@/actions/Useraction'
+import UserName from '@/app/[username]/page'
 
 const Paymentpage = ({ username }) => {
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [amountval, setamountval] = useState("");
+    const [CurrentUser, setCurrentUser] = useState({});
+    const [payments, setpayments] = useState([]);
     const [payment_form, setPayment_form] = useState({
         name: "",
         message: "",
         amount: ""
     });
+    useEffect(() => {
+        getData();
+
+    }, [])
 
     const set = (itna) => {
         setamountval(itna);
@@ -25,6 +33,17 @@ const Paymentpage = ({ username }) => {
         setErrorMsg(""); // Clear any error when form is edited
     }
 
+    const getData = async () => {
+        
+        let u = await fetchUser(username)
+        setCurrentUser(u);
+        console.log(u);
+        
+        let dbpayments = await fetchPayments(username);
+        setpayments(dbpayments);
+        console.log(dbpayments);
+        
+    }
     // Testing mode function - simulates payment flow without real Razorpay
     const testModePay = async () => {
         try {
@@ -173,6 +192,7 @@ const Paymentpage = ({ username }) => {
         }
     }
 
+
     return (
         <>
             <Script
@@ -182,9 +202,9 @@ const Paymentpage = ({ username }) => {
             />
 
             <div className='w-full h-[44vh] relative '>
-                <img className='w-full object-cover h-[44vh]' src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/4977505/2f449051e8704befa3b13e91cf5aeed9/eyJ3Ijo2MjAsIndlIjoxfQ%3D%3D/7.png?token-time=1746316800&token-hash=-hD5HNqHv4rQXNkrv9bBazVka_HtSSYY3CAtSpt2tZA%3D" alt="bACKGROUND pOSTER" />
+                <img className='w-full object-cover h-[44vh]' src={CurrentUser.Cover_PIC?.length === null ? "https://c.ndtvimg.com/2024-06/l9hjn35o_shikanji_625x300_23_June_24.jpg?im=FeatureCrop,algorithm=dnn,width=620,height=350?im=FaceCrop,algorithm=dnn,width=1200,height=886" : CurrentUser.Cover_PIC} alt="bACKGROUND pOSTER" />
                 <div className='absolute object-cover -bottom-12 right-[50%] translate-x-[50%]'>
-                    <img className='w-28 h-28 rounded-full border border-[2px] border-sky-100' src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/7590945/26655306517446abb46b610ce075ed4a/eyJoIjoxMDgwLCJ3IjoxMDgwfQ%3D%3D/2.jpeg?token-time=1745366400&token-hash=ssRQQOHgAKmA6EJrRKrKIFU9vrRksVNinfMDcdNFUG4%3D" alt="PROFILE_pic" />
+                    <img className='w-28 h-28 rounded-full border border-[2px] border-sky-100' src={CurrentUser.Profile_PIC?.length === null ? "https://rukminim3.flixcart.com/image/850/1000/kyvvtzk0/spice-masala/k/z/g/50-nimbu-shikanji-masala-50-gm-1-box-avadia-powder-original-imagbygtkwmjzqsu.jpeg?q=90&crop=false" : CurrentUser.Profile_PIC } alt="PROFILE_pic" />
                 </div>
             </div>
             <div className="info flex flex-col gap-2.5 justify-center items-center my-16 w-full">
@@ -201,18 +221,16 @@ const Paymentpage = ({ username }) => {
                     <div className="supporters w-full sm:w-1/2 rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">
                         <h2 className='font-semibold text-xl my-5'>Supporters</h2>
                         <ul className='px-2.5'>
+                           
+                           {payments.length === 0 ? (
+                               <h1 className='text-2xl text-center font-bold w-full text-slate-500'>No Supporters</h1>
+                           ):  payments.map(({name , message , amount}, index) => (
                             <li className='flex items-center py-2.5 gap-x-2'> <img className='w-7 p-1 blurkr rounded-full h-fit' src="./profile.gif" alt="profile_pic" />
-                                <span>Shubham Donated <span className='font-bold'>₹30</span> with a message "I am a fan, Love You"</span>
+                                <span>{name} Donated <span className='font-bold'>₹{amount}</span> with a message "{message}"</span>
                             </li>
-                            <li className='flex items-center py-2.5 gap-x-2'> <img className='w-7 p-1 blurkr rounded-full h-fit' src="./profile.gif" alt="profile_pic" />
-                                <span>Shubham Donated <span className='font-bold'>₹30</span> with a message "I am a fan, Love You"</span>
-                            </li>
-                            <li className='flex items-center py-2.5 gap-x-2'> <img className='w-7 p-1 blurkr rounded-full h-fit' src="./profile.gif" alt="profile_pic" />
-                                <span>Shubham Donated <span className='font-bold'>₹30</span> with a message "I am a fan, Love You"</span>
-                            </li>
-                            <li className='flex items-center py-2.5 gap-x-2'> <img className='w-7 p-1 blurkr rounded-full h-fit' src="./profile.gif" alt="profile_pic" />
-                                <span>Shubham Donated <span className='font-bold'>₹30</span> with a message "I am a fan, Love You"</span>
-                            </li>
+                                
+                            ))}
+                            
                         </ul>
                     </div>
                     <div className="makepayment w-full sm:w-1/2 rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">

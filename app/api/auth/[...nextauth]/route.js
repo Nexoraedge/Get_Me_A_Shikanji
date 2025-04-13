@@ -33,6 +33,10 @@ export const authOptions = NextAuth({
           const newUser = await User.create({ 
             email: user.email,
             UserName: user.email.split("@")[0],
+            Profile_PIC: null,
+            Cover_PIC: null,
+            Razorpay_ID: null,
+            Razorpay_SECRET: null,
           })
 
         }
