@@ -8,14 +8,17 @@ export const initiate = async (to_User, payment_form) => {
   try {
     await connectDB();
 
+    let u = await User.findOne({ UserName: to_User });
+    const secret = u.Razorpay_SECRET;
+
     const amount = Number(payment_form.amount);
     if (!amount || isNaN(amount) || amount <= 0) {
       throw new Error("Invalid amount");
     }
 
     const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_KEY_SECRET,
+      key_id: u.Razorpay_ID,
+      key_secret: secret,
     });
 
     const options = {
@@ -43,34 +46,35 @@ export const initiate = async (to_User, payment_form) => {
 
 export const fetchUser = async (username) => {
   console.log(username);
-  
-    await connectDB();
-    const userm = await User.findOne({ UserName:username });
-    if (!userm) return null;
-    
-  
-    return JSON.parse(JSON.stringify(userm));
+
+  await connectDB();
+  const userm = await User.findOne({ UserName: username });
+  if (!userm) return null;
+
+
+  return JSON.parse(JSON.stringify(userm));
 }
 
-export  const fetchPayments = async (username) => {
-  try{
+export const fetchPayments = async (username) => {
+  try {
     await connectDB();
-//payment collected by decreasing order of amount
-   let p  = await Payment.find({ to_User: username , done: true}).sort({ amount: -1 }).lean();
-   return p;
-   
-} catch (error) {
+    //payment collected by decreasing order of amount
+    let p = await Payment.find({ to_User: username, done: true }).sort({ amount: -1 }).lean();
+    return p;
+
+  } catch (error) {
     console.error("Error fetching user:", error);
-}}
+  }
+}
 
 export const updateProfile = async (formData, oldusername) => {
   await connectDB();
-  
+
   // If formData is already an object (from the client component)
-  const ndata = formData instanceof FormData 
-    ? Object.fromEntries(formData) 
+  const ndata = formData instanceof FormData
+    ? Object.fromEntries(formData)
     : formData;
-  
+
   // If the username is updated then check the username is available
   if (oldusername !== ndata.UserName) {
     let u = await User.findOne({ UserName: ndata.UserName });
@@ -78,18 +82,18 @@ export const updateProfile = async (formData, oldusername) => {
       return { success: false, message: "Username already exists" };
     }
   }
-  
+
   try {
     // Use updateOne with the email as the identifier
     const result = await User.updateOne(
-      { email: ndata.email }, 
+      { email: ndata.email },
       { $set: ndata }
     );
-    
+
     if (result.matchedCount === 0) {
       return { success: false, message: "User not found" };
     }
-    
+
     return { success: true, message: "Profile updated successfully" };
   } catch (error) {
     console.error("Error updating profile:", error);

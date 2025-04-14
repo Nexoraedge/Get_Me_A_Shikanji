@@ -3,10 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession, signIn } from "next-auth/react"
 import { fetchUser, updateProfile } from '@/actions/Useraction'
+import { ToastContainer, toast } from 'react-toastify';
+ 
 
 const Dashboard = () => {
   const { data: session, update, status } = useSession();
   const router = useRouter();
+  const notify = () => toast.success("Profile Updated Successfully🚀🚀");
+  const notify2 = () => toast.error("Failed to update profile");
   const [form, setForm] = useState({
     email: "",
     UserName: "",
@@ -32,6 +36,7 @@ const Dashboard = () => {
       getData();
     }
   }, [status, router, session]);
+ 
 
   const handleSub = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
@@ -40,10 +45,10 @@ const Dashboard = () => {
       
       await updateProfile(form, session.user.name);
       await update(); // Update the session
-      alert("Profile updated successfully");
+     notify();
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile");
+      notify2();
     }
   }
 
@@ -75,6 +80,14 @@ const Dashboard = () => {
 
   return (
     <div className='flex justify-center w-full h-full'>
+       <ToastContainer
+        closeOnClick
+        position="top-right"
+        draggable
+        theme='dark'
+        autoClose={2000}
+        limit={3}
+        />
       <div className="blurkr w-[90%] md:w-[50%] rounded-xl my-10 px-4 space-y-5 py-7 sm:px-7">
         <h1 className='text-2xl w-full flex justify-center font-bold items-center'>Welcome to your Profile</h1>
         <div className="container">

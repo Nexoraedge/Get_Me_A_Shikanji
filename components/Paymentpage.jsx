@@ -1,17 +1,25 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { initiate } from '@/actions/Useraction'
-import { NextResponse } from 'next/server'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { ToastContainer, toast } from 'react-toastify';
 import Script from 'next/script'
 import { fetchUser  , fetchPayments } from '@/actions/Useraction'
-import UserName from '@/app/[username]/page'
+import { useSearchParams } from 'next/navigation'
+
 
 const Paymentpage = ({ username }) => {
+    const { data: session } = useSession();
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [amountval, setamountval] = useState("");
     const [CurrentUser, setCurrentUser] = useState({});
     const [payments, setpayments] = useState([]);
+    const SearchParams = useSearchParams();
+    const notify = () => toast.success("payment sucessfull🚀🚀");
+
     const [payment_form, setPayment_form] = useState({
         name: "",
         message: "",
@@ -21,6 +29,15 @@ const Paymentpage = ({ username }) => {
         getData();
 
     }, [])
+    //after payment success toast + redirect url
+    useEffect(() => {
+        if(SearchParams.get('Payment') === 'true'){
+        notify();
+        router.push(`${username}`);  
+    }
+
+      },[]);
+
 
     const set = (itna) => {
         setamountval(itna);
@@ -44,6 +61,7 @@ const Paymentpage = ({ username }) => {
         console.log(dbpayments);
         
     }
+   
     // Testing mode function - simulates payment flow without real Razorpay
     const testModePay = async () => {
         try {
@@ -118,7 +136,7 @@ const Paymentpage = ({ username }) => {
             }
 
             var options = {
-                "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_Y0DU1UFmSbvBY1",
+                "key": CurrentUser.Razorpay_ID,
                 "amount": Number(payment_form.amount) * 100,
                 "currency": "INR",
                 "name": "Get Me A Shikanji",
@@ -126,7 +144,7 @@ const Paymentpage = ({ username }) => {
                 "order_id": orderData.id,
                 "handler": async function (response) {
                     console.log("Payment successful:", response);
-
+                    
                     try {
                         // Convert Razorpay response to JSON
                         const payload = {
@@ -192,9 +210,17 @@ const Paymentpage = ({ username }) => {
         }
     }
 
-
     return (
         <>
+        <ToastContainer
+        
+        closeOnClick
+        position="top-right"
+        draggable
+        theme='dark'
+        autoClose={2000}
+        limit={3}
+        />
             <Script
                 src="https://checkout.razorpay.com/v1/checkout.js"
                 strategy="beforeInteractive"
@@ -202,9 +228,9 @@ const Paymentpage = ({ username }) => {
             />
 
             <div className='w-full h-[44vh] relative '>
-                <img className='w-full object-cover h-[44vh]' src={CurrentUser.Cover_PIC?.length === null ? "https://c.ndtvimg.com/2024-06/l9hjn35o_shikanji_625x300_23_June_24.jpg?im=FeatureCrop,algorithm=dnn,width=620,height=350?im=FaceCrop,algorithm=dnn,width=1200,height=886" : CurrentUser.Cover_PIC} alt="bACKGROUND pOSTER" />
+                <img className='w-full object-cover h-[44vh]' src={CurrentUser.Cover_PIC ?  CurrentUser.Cover_PIC : "https://c.ndtvimg.com/2024-06/l9hjn35o_shikanji_625x300_23_June_24.jpg?im=FeatureCrop,algorithm=dnn,width=620,height=350?im=FaceCrop,algorithm=dnn,width=1200,height=886" } alt="bACKGROUND pOSTER" />
                 <div className='absolute object-cover -bottom-12 right-[50%] translate-x-[50%]'>
-                    <img className='w-28 h-28 rounded-full border border-[2px] border-sky-100' src={CurrentUser.Profile_PIC?.length === null ? "https://rukminim3.flixcart.com/image/850/1000/kyvvtzk0/spice-masala/k/z/g/50-nimbu-shikanji-masala-50-gm-1-box-avadia-powder-original-imagbygtkwmjzqsu.jpeg?q=90&crop=false" : CurrentUser.Profile_PIC } alt="PROFILE_pic" />
+                    <img className='w-28 h-28 rounded-full border border-[2px] border-sky-100' src={CurrentUser.Profile_PIC ? CurrentUser.Profile_PIC : "https://rukminim3.flixcart.com/image/850/1000/kyvvtzk0/spice-masala/k/z/g/50-nimbu-shikanji-masala-50-gm-1-box-avadia-powder-original-imagbygtkwmjzqsu.jpeg?q=90&crop=false"  } alt="PROFILE_pic" />
                 </div>
             </div>
             <div className="info flex flex-col gap-2.5 justify-center items-center my-16 w-full">
@@ -212,20 +238,21 @@ const Paymentpage = ({ username }) => {
                     @{username}
                 </div>
                 <div className='text-slate-400'>
-                    creating Art and Animations
+                    let's help {username} to get a Shikanji🍋
                 </div>
                 <div className='text-center text-sm tracking-tight text-slate-400'>
-                    187 paid members • 118 Posts • ₹959,4/month
+                    {/* to get the payment count and total payment amount and timging of joining get me a shikanji */}
+                    {CurrentUser.email} •  {payments.length} Supports • <span className='font-bold'>₹{payments.reduce((total, payment) => total + payment.amount, 0)}</span> raised
                 </div>
-                <div className="payment flex flex-col sm:flex-row mt-10 gap-3 w-[95%] md:w-[85%] xl:[80%]">
-                    <div className="supporters w-full sm:w-1/2 rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">
+                <div className="payment flex flex-col sm:flex-row mt-10  gap-3 w-[95%] md:w-[85%] xl:[80%]">
+                    <div className="supporters w-full sm:w-1/2  rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">
                         <h2 className='font-semibold text-xl my-5'>Supporters</h2>
-                        <ul className='px-2.5'>
+                        <ul className='px-2.5 h-[40vh] scrollbarrh overflow-y-auto'>
                            
                            {payments.length === 0 ? (
                                <h1 className='text-2xl text-center font-bold w-full text-slate-500'>No Supporters</h1>
                            ):  payments.map(({name , message , amount}, index) => (
-                            <li className='flex items-center py-2.5 gap-x-2'> <img className='w-7 p-1 blurkr rounded-full h-fit' src="./profile.gif" alt="profile_pic" />
+                            <li key={index} className='flex items-center py-2.5 gap-x-2'> <img className='w-7 p-1 blurkr rounded-full h-fit' src="./profile.gif" alt="profile_pic" />
                                 <span>{name} Donated <span className='font-bold'>₹{amount}</span> with a message "{message}"</span>
                             </li>
                                 
@@ -275,7 +302,7 @@ const Paymentpage = ({ username }) => {
                             <button
                                 onClick={pay}
                                 disabled={loading}
-                                className="relative text-lg inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hcden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-[#010225] to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 disabled:opacity-50">
+                                className="relative text-lg inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-[#010225] to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 disabled:opacity-50">
                                 <span className="relative px-5 py-2.5 transition-colors ease-in duration-150 bg-white dark:bg-gray-800 rounded-md w-full group-hover:bg-transparent group-hover:dark:bg-transparent hover:from-0% hover:to-100%">
                                     {loading ? 'Processing...' : 'Pay 💸'}
                                 </span>

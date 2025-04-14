@@ -2,11 +2,12 @@ import { NextResponse } from "next/server";
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils";
 import Payment from "@/models/payment";
 import connectDB from "@/db/connectDB";
+import User from "@/models/user";
 
 export const POST = async (req) => {
   try {
     await connectDB();
-    
+    // console.log(secret);
     // Try both JSON and form data approaches
     let body;
     try {
@@ -29,13 +30,16 @@ export const POST = async (req) => {
     
     const p = await Payment.findOne({ oid: razorpay_order_id });
     console.log("Payment record found:", p);
+    const to_User = p.to_User
     
     if (!p) {
       return NextResponse.json({ success: false, message: "Order ID not found" }, { status: 400 });
     }
+    let u = await User.findOne({ UserName: to_User });
+    const secret = u.Razorpay_SECRET
     
     // Make sure your key secret is available
-    if (!process.env.RAZORPAY_KEY_SECRET) {
+    if (!secret) {
       console.error("RAZORPAY_KEY_SECRET is not defined");
       return NextResponse.json({ success: false, message: "Server configuration error" }, { status: 500 });
     }
@@ -47,11 +51,12 @@ export const POST = async (req) => {
           payment_id: razorpay_payment_id, // Try this format if the other doesn't work
         },
         razorpay_signature,
-        process.env.RAZORPAY_KEY_SECRET
+        secret
       );
       
       console.log("Validation result:", isValid);
-      
+      //fetch the secert of the user getting payment
+  
       if (isValid) {
         const updatedPayment = await Payment.findOneAndUpdate(
           { oid: razorpay_order_id },
