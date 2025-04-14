@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Script from 'next/script'
 import { fetchUser  , fetchPayments } from '@/actions/Useraction'
 import { useSearchParams } from 'next/navigation'
+import { notFound } from 'next/navigation'
 
 
 const Paymentpage = ({ username }) => {
@@ -209,7 +210,7 @@ const Paymentpage = ({ username }) => {
             setLoading(false);
         }
     }
-    
+    //if the username is not present in the database , show 
     
 
     return (
@@ -230,10 +231,10 @@ const Paymentpage = ({ username }) => {
             />
 
             <div className='w-full h-[44vh] relative '>
-                <img className='w-full object-cover h-[44vh]' src={CurrentUser.Cover_PIC ? CurrentUser.Cover_PIC : "https://c.ndtvimg.com/2024-06/l9hjn35o_shikanji_625x300_23_June_24.jpg?im=FeatureCrop,algorithm=dnn,width=620,height=350?im=FaceCrop,algorithm=dnn,width=1200,height=886"                    
+                <img className='w-full object-cover h-[44vh]' src={CurrentUser.Cover_PIC              
                  } alt="BACKGROUND POSTER" />
                 <div className='absolute object-cover -bottom-12 right-[50%] translate-x-[50%]'>
-                    <img className='w-28 h-28 rounded-full border border-[2px] border-sky-100' src={CurrentUser.Profile_PIC ? CurrentUser.Profile_PIC : "https://rukminim3.flixcart.com/image/850/1000/kyvvtzk0/spice-masala/k/z/g/50-nimbu-shikanji-masala-50-gm-1-box-avadia-powder-original-imagbygtkwmjzqsu.jpeg?q=90&crop=false"  } alt="PROFILE_pic" />
+                    <img className='w-28 h-28 rounded-full border border-[2px] border-sky-100' src={CurrentUser.Profile_PIC} alt="PROFILE_pic" />
                 </div>
             </div>
             <div className="info flex flex-col gap-2.5 justify-center items-center my-16 w-full">

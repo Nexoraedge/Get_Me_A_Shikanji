@@ -33,8 +33,8 @@ export const authOptions = NextAuth({
           const newUser = await User.create({ 
             email: user.email,
             UserName: user.email.split("@")[0],
-            Profile_PIC: null,
-            Cover_PIC: null,
+            Profile_PIC: "https://tryfloral.com/cdn/shop/products/CopyofCopyofFloral_THCpacket_Pour_1_1.gif?crop=center&height=1300&v=1672200707&width=1300",
+            Cover_PIC: "https://miro.medium.com/v2/resize:fit:1200/1*V_UMKg7IjWXBnseLjcdMwA.gif",
             Razorpay_ID: null,
             Razorpay_SECRET: null,
           })
