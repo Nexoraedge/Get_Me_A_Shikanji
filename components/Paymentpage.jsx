@@ -27,35 +27,35 @@ const Paymentpage = ({ username }) => {
     });
     useEffect(() => {
         getData();
-
+        
     }, [])
     //after payment success toast + redirect url
     useEffect(() => {
         if(SearchParams.get('Payment') === 'true'){
-        notify();
-        router.push(`${username}`);  
-    }
-
-      },[]);
-
-
+            notify();
+            router.push(`${username}`);  
+        }
+        
+        
+    },[]);
+    
+    
     const set = (itna) => {
         setamountval(itna);
         setPayment_form({ ...payment_form, amount: itna });
         setErrorMsg(""); // Clear any error when amount is selected
     }
-
+    
     const handleChange = (e) => {
         setPayment_form({ ...payment_form, [e.target.name]: e.target.value });
         setErrorMsg(""); // Clear any error when form is edited
     }
-
+    
     const getData = async () => {
         
         let u = await fetchUser(username)
         setCurrentUser(u);
         console.log(u);
-        
         let dbpayments = await fetchPayments(username);
         setpayments(dbpayments);
         console.log(dbpayments);
@@ -209,6 +209,8 @@ const Paymentpage = ({ username }) => {
             setLoading(false);
         }
     }
+    
+    
 
     return (
         <>
@@ -228,7 +230,8 @@ const Paymentpage = ({ username }) => {
             />
 
             <div className='w-full h-[44vh] relative '>
-                <img className='w-full object-cover h-[44vh]' src={CurrentUser.Cover_PIC ?  CurrentUser.Cover_PIC : "https://c.ndtvimg.com/2024-06/l9hjn35o_shikanji_625x300_23_June_24.jpg?im=FeatureCrop,algorithm=dnn,width=620,height=350?im=FaceCrop,algorithm=dnn,width=1200,height=886" } alt="bACKGROUND pOSTER" />
+                <img className='w-full object-cover h-[44vh]' src={CurrentUser.Cover_PIC ? CurrentUser.Cover_PIC : "https://c.ndtvimg.com/2024-06/l9hjn35o_shikanji_625x300_23_June_24.jpg?im=FeatureCrop,algorithm=dnn,width=620,height=350?im=FaceCrop,algorithm=dnn,width=1200,height=886"                    
+                 } alt="BACKGROUND POSTER" />
                 <div className='absolute object-cover -bottom-12 right-[50%] translate-x-[50%]'>
                     <img className='w-28 h-28 rounded-full border border-[2px] border-sky-100' src={CurrentUser.Profile_PIC ? CurrentUser.Profile_PIC : "https://rukminim3.flixcart.com/image/850/1000/kyvvtzk0/spice-masala/k/z/g/50-nimbu-shikanji-masala-50-gm-1-box-avadia-powder-original-imagbygtkwmjzqsu.jpeg?q=90&crop=false"  } alt="PROFILE_pic" />
                 </div>
@@ -242,7 +245,7 @@ const Paymentpage = ({ username }) => {
                 </div>
                 <div className='text-center text-sm tracking-tight text-slate-400'>
                     {/* to get the payment count and total payment amount and timging of joining get me a shikanji */}
-                    {CurrentUser.email} •  {payments.length} Supports • <span className='font-bold'>₹{payments.reduce((total, payment) => total + payment.amount, 0)}</span> raised
+                    {CurrentUser.email} •  {payments.length} Payments • <span className='font-bold'>₹{payments.reduce((total, payment) => total + payment.amount, 0)}</span> raised
                 </div>
                 <div className="payment flex flex-col sm:flex-row mt-10  gap-3 w-[95%] md:w-[85%] xl:[80%]">
                     <div className="supporters w-full sm:w-1/2  rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">

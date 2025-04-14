@@ -81,6 +81,7 @@ export const updateProfile = async (formData, oldusername) => {
     if (u) {
       return { success: false, message: "Username already exists" };
     }
+    
   }
 
   try {
@@ -89,6 +90,9 @@ export const updateProfile = async (formData, oldusername) => {
       { email: ndata.email },
       { $set: ndata }
     );
+    //now update the username in the payment table
+    await Payment.updateMany({ to_User: oldusername }, { $set: { to_User: ndata.UserName } });
+    
 
     if (result.matchedCount === 0) {
       return { success: false, message: "User not found" };
