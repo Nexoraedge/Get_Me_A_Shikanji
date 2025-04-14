@@ -60,7 +60,7 @@ export const fetchPayments = async (username) => {
   try {
     await connectDB();
     //payment collected by decreasing order of amount
-    let p = await Payment.find({ to_User: username, done: true }).sort({ amount: -1 }).lean();
+    let p = await Payment.find({ to_User: username, done: true }).sort({ amount: -1 }).limit(10).lean();
     return p;
 
   } catch (error) {

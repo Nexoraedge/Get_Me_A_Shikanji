@@ -35,6 +35,9 @@ const Dashboard = () => {
     if (session?.user?.name) {
       getData();
     }
+
+    document.title = "Dashboard 🍋 | Get Me A Shikanji";
+
   }, [status, router, session]);
  
 
@@ -89,7 +92,7 @@ const Dashboard = () => {
         limit={3}
         />
       <div className="blurkr w-[90%] md:w-[50%] rounded-xl my-10 px-4 space-y-5 py-7 sm:px-7">
-        <h1 className='text-2xl w-full flex justify-center font-bold items-center'>Welcome to your Profile</h1>
+        <h1 className='text-xl sm:text-2xl md:text-3xl  w-full flex justify-center font-bold items-center'>Welcome to your Profile</h1>
         <div className="container">
           <form onSubmit={handleSub}>
             <div className='my-2'>

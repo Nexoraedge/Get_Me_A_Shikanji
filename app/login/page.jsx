@@ -1,11 +1,15 @@
 "use client"
 // import React from 'react'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useSession, signIn, signOut } from "next-auth/react"
 
 const Login = () => {
     const { data: session } = useSession();
     const rounter = useRouter();
+    useEffect(() => {
+        document.title = "Login | Get Me A Shikanji"
+    },[])
     if (session) {
         rounter.push(`/${session.user.name}`)
     }

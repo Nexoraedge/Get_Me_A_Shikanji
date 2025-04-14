@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { ToastContainer, toast } from 'react-toastify';
 import Script from 'next/script'
-import { fetchUser  , fetchPayments } from '@/actions/Useraction'
+import { fetchUser, fetchPayments } from '@/actions/Useraction'
 import { useSearchParams } from 'next/navigation'
 import { notFound } from 'next/navigation'
 
@@ -28,41 +28,41 @@ const Paymentpage = ({ username }) => {
     });
     useEffect(() => {
         getData();
-        
+
     }, [])
     //after payment success toast + redirect url
     useEffect(() => {
-        if(SearchParams.get('Payment') === 'true'){
+        if (SearchParams.get('Payment') === 'true') {
             notify();
-            router.push(`${username}`);  
+            router.push(`${username}`);
         }
-        
-        
-    },[]);
-    
-    
+
+
+    }, []);
+
+
     const set = (itna) => {
         setamountval(itna);
         setPayment_form({ ...payment_form, amount: itna });
         setErrorMsg(""); // Clear any error when amount is selected
     }
-    
+
     const handleChange = (e) => {
         setPayment_form({ ...payment_form, [e.target.name]: e.target.value });
         setErrorMsg(""); // Clear any error when form is edited
     }
-    
+
     const getData = async () => {
-        
+
         let u = await fetchUser(username)
         setCurrentUser(u);
         console.log(u);
         let dbpayments = await fetchPayments(username);
         setpayments(dbpayments);
         console.log(dbpayments);
-        
+
     }
-   
+
     // Testing mode function - simulates payment flow without real Razorpay
     const testModePay = async () => {
         try {
@@ -145,7 +145,7 @@ const Paymentpage = ({ username }) => {
                 "order_id": orderData.id,
                 "handler": async function (response) {
                     console.log("Payment successful:", response);
-                    
+
                     try {
                         // Convert Razorpay response to JSON
                         const payload = {
@@ -211,19 +211,19 @@ const Paymentpage = ({ username }) => {
         }
     }
     //if the username is not present in the database , show 
-    
+
 
     return (
         <>
-        <ToastContainer
-        
-        closeOnClick
-        position="top-right"
-        draggable
-        theme='dark'
-        autoClose={2000}
-        limit={3}
-        />
+            <ToastContainer
+
+                closeOnClick
+                position="top-right"
+                draggable
+                theme='dark'
+                autoClose={2000}
+                limit={3}
+            />
             <Script
                 src="https://checkout.razorpay.com/v1/checkout.js"
                 strategy="beforeInteractive"
@@ -231,8 +231,8 @@ const Paymentpage = ({ username }) => {
             />
 
             <div className='w-full h-[44vh] relative '>
-                <img className='w-full object-cover h-[44vh]' src={CurrentUser.Cover_PIC              
-                 } alt="BACKGROUND POSTER" />
+                <img className='w-full object-cover h-[44vh]' src={CurrentUser.Cover_PIC
+                } alt="BACKGROUND POSTER" />
                 <div className='absolute object-cover -bottom-12 right-[50%] translate-x-[50%]'>
                     <img className='w-28 h-28 rounded-full border border-[2px] border-sky-100' src={CurrentUser.Profile_PIC} alt="PROFILE_pic" />
                 </div>
@@ -248,23 +248,23 @@ const Paymentpage = ({ username }) => {
                     {/* to get the payment count and total payment amount and timging of joining get me a shikanji */}
                     {CurrentUser.email} •  {payments.length} Payments • <span className='font-bold'>₹{payments.reduce((total, payment) => total + payment.amount, 0)}</span> raised
                 </div>
-                <div className="payment flex flex-col sm:flex-row mt-10  gap-3 w-[95%] md:w-[85%] xl:[80%]">
-                    <div className="supporters w-full sm:w-1/2  rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">
-                        <h2 className='font-semibold text-xl my-5'>Supporters</h2>
+                <div className="payment flex flex-col md:flex-row mt-10  gap-3 w-[95%] md:w-[85%] xl:[80%]">
+                    <div className="supporters w-full md:w-1/2  rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">
+                        <h2 className='font-semibold text-xl my-5'>Top 10 Supporters</h2>
                         <ul className='px-2.5 h-[40vh] scrollbarrh overflow-y-auto'>
-                           
-                           {payments.length === 0 ? (
-                               <h1 className='text-2xl text-center font-bold w-full text-slate-500'>No Supporters</h1>
-                           ):  payments.map(({name , message , amount}, index) => (
-                            <li key={index} className='flex items-center py-2.5 gap-x-2'> <img className='w-7 p-1 blurkr rounded-full h-fit' src="./profile.gif" alt="profile_pic" />
-                                <span>{name} Donated <span className='font-bold'>₹{amount}</span> with a message "{message}"</span>
-                            </li>
-                                
+
+                            {payments.length === 0 ? (
+                                <h1 className='text-2xl text-center font-bold w-full text-slate-500'>No Supporters</h1>
+                            ) : payments.map(({ name, message, amount }, index) => (
+                                <li key={index} className='flex items-center py-2.5 gap-x-2'> <img className='w-7 p-1 blurkr rounded-full h-fit' src="./profile.gif" alt="profile_pic" />
+                                    <span>{name} Donated <span className='font-bold'>₹{amount}</span> with a message "{message}"</span>
+                                </li>
+
                             ))}
-                            
+
                         </ul>
                     </div>
-                    <div className="makepayment w-full sm:w-1/2 rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">
+                    <div className="makepayment w-full md:w-1/2 rounded rounded-br-2xl rounded-tl-2xl py-11 px-9 blurkr">
                         <h2 className='font-semibold text-xl my-5'>Support Us</h2>
 
                         {/* Show error message if any */}
@@ -319,7 +319,7 @@ const Paymentpage = ({ username }) => {
                                 </div>
                             )}
                         </div>
-                        <div className="flex flex-wrap gap-2 mt-4">
+                        <div className="flex flex-wrap gap-2 justify-center mt-4">
                             <button onClick={() => set(10)} disabled={loading} className='bg-slate-800 p-3 rounded-lg text-slate-200 disabled:opacity-50'>Pay ₹10</button>
                             <button onClick={() => set(20)} disabled={loading} className='bg-slate-800 p-3 rounded-lg text-slate-200 disabled:opacity-50'>Pay ₹20</button>
                             <button onClick={() => set(50)} disabled={loading} className='bg-slate-800 p-3 rounded-lg text-slate-200 disabled:opacity-50'>Pay ₹50</button>
